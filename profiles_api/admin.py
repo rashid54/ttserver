@@ -3,3 +3,5 @@ from profiles_api import models
 
 
 admin.site.register(models.UserProfile)
+admin.site.register(models.QuestionItem)
+admin.site.register(models.Test)

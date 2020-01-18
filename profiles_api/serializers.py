@@ -24,3 +24,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
         )
 
         return user
+
+
+class QuestionItemSerializer(serializers.ModelSerializer):
+    """serializes QuestionItemSerializer"""
+
+    class Meta:
+        model = models.QuestionItem
+        fields= ('id','user_profile','question','opt1','opt2','opt3','opt4','ans')
+        extra_kwargs = {'user_profile':{'read_only':True}}
+
+        

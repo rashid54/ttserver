@@ -5,8 +5,9 @@ from profiles_api import views
 
 router= DefaultRouter()
 router.register('profile',views.UserProfileViewSet)
-
+router.register('question',views.QuestionItemViewSet)
 
 urlpatterns = [
+    path('login/',views.UserLoginApiView.as_view()),
     path('',include(router.urls))
 ]
