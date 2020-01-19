@@ -7,7 +7,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.UserProfile
-        fields = ('id','username','email','password')
+        fields = ('id','username','email','institution','password')
         extra_kwargs ={
             'password': {
                 'write_only': True,
@@ -20,6 +20,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         user = models.UserProfile.objects.create_user(
             username= validated_data['username'],
             email= validated_data['email'],
+            institution= validated_data['institution'],
             password= validated_data['password']
         )
 
@@ -39,5 +40,5 @@ class TestSerializer(serializers.ModelSerializer):
     """serializes Test """
     class Meta:
         model = models.Test
-        fields= ('id','user_profile','testname','questions')
+        fields= ('id','user_profile','testname','questions','duration')
         extra_kwargs= {'user_profile':{'read_only':True}}
