@@ -39,3 +39,17 @@ class QuestionItemViewSet(viewsets.ModelViewSet):
     def perform_create(self,serializer):
         """Sets the user profile to the logged in user"""
         serializer.save(user_profile=self.request.user)
+
+class TestViewSet(viewsets.ModelViewSet):
+    """Handles Test """
+    serializer_class= serializers.TestSerializer
+    queryset= models.Test.objects.all()
+    authentication_classes= (TokenAuthentication,)
+    filter_backends= (filters.SearchFilter,)
+    search_fields= ('testname',)
+
+    def perform_create(self,serializer):
+        """Sets the user profile to the logged in user"""
+        serializer.save(user_profile=self.request.user)
+
+         

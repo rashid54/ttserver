@@ -34,4 +34,13 @@ class QuestionItemSerializer(serializers.ModelSerializer):
         fields= ('id','user_profile','question','opt1','opt2','opt3','opt4','ans')
         extra_kwargs = {'user_profile':{'read_only':True}}
 
+
+class TestSerializer(serializers.ModelSerializer):
+    """serializes Test """
+    class Meta:
+        model = models.Test
+        fields= ('id','user_profile','testname','questions')
+        extra_kwargs= {'user_profile':{'read_only':True}}
+
+
         
