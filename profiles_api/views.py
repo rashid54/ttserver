@@ -64,5 +64,6 @@ class GetUser(viewsets.ViewSet):
                 "id":request.user.id,
                 "username":request.user.username,
                 "email":request.user.email,
+                "institution":request.user.institution,
             }
         )
