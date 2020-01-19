@@ -1,7 +1,10 @@
 from rest_framework.views import APIView
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
+
+from django.contrib.auth.models import User
 
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
@@ -52,4 +55,14 @@ class TestViewSet(viewsets.ModelViewSet):
         """Sets the user profile to the logged in user"""
         serializer.save(user_profile=self.request.user)
 
-         
+class GetUser(viewsets.ViewSet):
+    """Viewset for finding user id"""
+    authentication_classes= (TokenAuthentication,)
+    def list(self, request):
+        return Response(
+            {
+                "id":request.user.id,
+                "username":request.user.username,
+                "email":request.user.email,
+            }
+        )

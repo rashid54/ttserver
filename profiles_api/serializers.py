@@ -41,6 +41,3 @@ class TestSerializer(serializers.ModelSerializer):
         model = models.Test
         fields= ('id','user_profile','testname','questions')
         extra_kwargs= {'user_profile':{'read_only':True}}
-
-
-        
