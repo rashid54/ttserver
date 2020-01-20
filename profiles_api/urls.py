@@ -8,6 +8,7 @@ router.register('profile',views.UserProfileViewSet)
 router.register('question',views.QuestionItemViewSet)
 router.register('test',views.TestViewSet)
 router.register('getid',views.GetUser,base_name = "getid")
+router.register('gettestquestion/(?P<pk>.+)',views.GetTestQuestion,base_name= "get_ques")
 
 urlpatterns = [
     path('login/',views.UserLoginApiView.as_view()),

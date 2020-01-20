@@ -51,9 +51,12 @@ class TestViewSet(viewsets.ModelViewSet):
     filter_backends= (filters.SearchFilter,)
     search_fields= ('testname',)
 
+
     def perform_create(self,serializer):
         """Sets the user profile to the logged in user"""
         serializer.save(user_profile=self.request.user)
+
+
 
 class GetUser(viewsets.ViewSet):
     """Viewset for finding user id"""
@@ -67,3 +70,13 @@ class GetUser(viewsets.ViewSet):
                 "institution":request.user.institution,
             }
         )
+
+class GetTestQuestion(viewsets.ViewSet):
+    """For getting the questions of any test"""
+
+    def list(self,request,pk):
+        sql="SELECT * FROM profiles_api_questionitem INNER JOIN (profiles_api_test INNER JOIN profiles_api_test_questions ON profiles_api_test.id = profiles_api_test_questions.test_id) ON profiles_api_questionitem.id =profiles_api_test_questions.questionitem_id "
+        sql= sql + "where profiles_api_test.id = "+ pk + " ;"
+        queryset= models.QuestionItem.objects.raw(sql)
+        serializer= serializers.QuestionItemSerializer(queryset,many=True)
+        return Response(serializer.data)
