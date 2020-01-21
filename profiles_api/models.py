@@ -81,6 +81,7 @@ class Test(models.Model):
     testname= models.CharField(max_length=255)
     questions= models.ManyToManyField(QuestionItem)
     duration= models.IntegerField(null=True)
+    totalques= models.IntegerField(null=True)
 
     def __str__(self):
         """return only the testname"""

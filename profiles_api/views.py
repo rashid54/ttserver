@@ -75,8 +75,7 @@ class GetTestQuestion(viewsets.ViewSet):
     """For getting the questions of any test"""
 
     def list(self,request,pk):
-        sql="SELECT * FROM profiles_api_questionitem INNER JOIN (profiles_api_test INNER JOIN profiles_api_test_questions ON profiles_api_test.id = profiles_api_test_questions.test_id) ON profiles_api_questionitem.id =profiles_api_test_questions.questionitem_id "
-        sql= sql + "where profiles_api_test.id = "+ pk + " ;"
+        sql="SELECT * FROM profiles_api_questionitem INNER JOIN (profiles_api_test INNER JOIN profiles_api_test_questions ON profiles_api_test.id = profiles_api_test_questions.test_id) ON profiles_api_questionitem.id =profiles_api_test_questions.questionitem_id where profiles_api_test.id = "+ pk + " ;"
         queryset= models.QuestionItem.objects.raw(sql)
         serializer= serializers.QuestionItemSerializer(queryset,many=True)
         return Response(serializer.data)

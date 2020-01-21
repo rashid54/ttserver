@@ -40,5 +40,5 @@ class TestSerializer(serializers.ModelSerializer):
     """serializes Test """
     class Meta:
         model = models.Test
-        fields= ('id','testname','questions','duration','user_profile')
+        fields= ('id','testname','questions','duration','totalques','user_profile')
         extra_kwargs= {'user_profile':{'read_only':True}}
