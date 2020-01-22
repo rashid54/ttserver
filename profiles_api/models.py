@@ -99,6 +99,8 @@ class TestResult(models.Model):
         on_delete=models.CASCADE
     )
     score= models.IntegerField()
+    testname= models.CharField(max_length=255)
+    username= models.CharField(max_length=255)
 
     def __str__(self):
         """return score"""

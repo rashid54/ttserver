@@ -49,7 +49,7 @@ class TestResultSerializer(serializers.ModelSerializer):
     """serializes TestResult"""
     class Meta:
         model= models.TestResult
-        fields= ('id','test_id','user_id','score')
+        fields= ('id','test_id','user_id','score','testname','username')
         extra_kwargs = {'user_id':{'read_only':True}}
 
 
