@@ -37,7 +37,7 @@ class QuestionItemViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     queryset = models.QuestionItem.objects.all()
     filter_backends= (filters.SearchFilter,)
-    search_fields = ('question',)
+    search_fields = ('question','id',)
 
     def perform_create(self,serializer):
         """Sets the user profile to the logged in user"""
@@ -49,7 +49,7 @@ class TestViewSet(viewsets.ModelViewSet):
     queryset= models.Test.objects.all()
     authentication_classes= (TokenAuthentication,)
     filter_backends= (filters.SearchFilter,)
-    search_fields= ('testname',)
+    search_fields= ('testname','id',)
 
 
     def perform_create(self,serializer):
