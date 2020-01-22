@@ -102,7 +102,7 @@ class TestResult(models.Model):
 
     def __str__(self):
         """return score"""
-        return self.score
+        return str(self.id)
 
 
 class SelectedAns(models.Model):

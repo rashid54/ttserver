@@ -3,6 +3,8 @@ from rest_framework.generics import RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework import mixins
+from rest_framework import generics
 
 from django.contrib.auth.models import User
 
@@ -87,7 +89,7 @@ class TestResultViewSet(viewsets.ModelViewSet):
     queryset= models.TestResult.objects.all()
     authentication_classes=(TokenAuthentication,)
     filter_backends= (filters.SearchFilter,)
-    search_fields= ('test_id',)
+    search_fields= ('test_id__testname',)
 
     def perform_create(self,serializer):
         """Sets the user_id to the logged in user"""
