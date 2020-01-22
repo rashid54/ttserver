@@ -79,3 +79,23 @@ class GetTestQuestion(viewsets.ViewSet):
         queryset= models.QuestionItem.objects.raw(sql)
         serializer= serializers.QuestionItemSerializer(queryset,many=True)
         return Response(serializer.data)
+
+class TestResultViewSet(viewsets.ModelViewSet):
+    """Handles TestResult model"""
+    serializer_class=serializers.TestResultSerializer
+    queryset= models.TestResult.objects.all()
+    authentication_classes=(TokenAuthentication,)
+    filter_backends= (filters.SearchFilter,)
+    search_fields= ('test_id',)
+
+    def perform_create(self,serializer):
+        """Sets the user_id to the logged in user"""
+        serializer.save(user_id=self.request.user)
+
+class SelectedAnsViewSet(viewsets.ModelViewSet):
+    """Handles SelectedAns model"""
+    serializer_class= serializers.SelectedAnsSerializer
+    queryset= models.SelectedAns.objects.all()
+    authentication_classes=(TokenAuthentication,)
+    filter_backends= (filters.SearchFilter,)
+    search_fields= ('result_id',)

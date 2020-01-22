@@ -87,3 +87,36 @@ class Test(models.Model):
     def __str__(self):
         """return only the testname"""
         return self.testname
+
+class TestResult(models.Model):
+    """TestResult model for storing results of tests"""
+    test_id= models.ForeignKey(
+        'profiles_api.Test',
+        on_delete=models.CASCADE
+    )
+    user_id=models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    score= models.IntegerField()
+
+    def __str__(self):
+        """return score"""
+        return self.score
+
+
+class SelectedAns(models.Model):
+    """SelectedAns model"""
+    question_id= models.ForeignKey(
+        'profiles_api.QuestionItem',
+        on_delete=models.CASCADE
+    )
+    result_id=models.ForeignKey(
+        'profiles_api.TestResult',
+        on_delete=models.CASCADE
+    )
+    selected_answer= models.CharField(max_length=255)
+
+    def __str__(self):
+        """return answer only"""
+        return self.selected_answer

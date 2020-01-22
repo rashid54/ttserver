@@ -29,7 +29,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 class QuestionItemSerializer(serializers.ModelSerializer):
-    """serializes QuestionItemSerializer"""
+    """serializes QuestionItem model"""
 
     class Meta:
         model = models.QuestionItem
@@ -43,3 +43,18 @@ class TestSerializer(serializers.ModelSerializer):
         model = models.Test
         fields= ('id','testname','questions','duration','totalques','user_profile')
         extra_kwargs= {'user_profile':{'read_only':True}}
+
+
+class TestResultSerializer(serializers.ModelSerializer):
+    """serializes TestResult"""
+    class Meta:
+        model= models.TestResult
+        fields= ('id','test_id','user_id','score')
+        extra_kwargs = {'user_id':{'read_only':True}}
+
+
+class SelectedAnsSerializer(serializers.ModelSerializer):
+    """serializes SelectedAns model"""
+    class Meta:
+        model= models.SelectedAns
+        fields= ('id','result_id','question_id','selected_answer')
