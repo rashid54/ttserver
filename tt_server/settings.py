@@ -125,3 +125,13 @@ STATIC_URL = '/static/'
 
 
 AUTH_USER_MODEL = 'profiles_api.UserProfile'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'smtp.yandex.com'
+EMAIL_PORT = 465
+EMAIL_USE_SSL= True
+EMAIL_HOST_USER = 'tes.tt.aker@yandex.com'
+EMAIL_HOST_PASSWORD = 'kelwkxateuznkbbw'
+DEFAULT_FROM_EMAIL = 'tes.tt.aker@yandex.com'

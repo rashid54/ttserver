@@ -14,5 +14,6 @@ router.register('selectedans',views.SelectedAnsViewSet)
 
 urlpatterns = [
     path('login/',views.UserLoginApiView.as_view()),
-    path('',include(router.urls))
+    path('',include(router.urls)),
+    path('activate/<slug:uidb64>/<slug:token>/',views.activate_account, name='activate'),
 ]

@@ -3,8 +3,6 @@ from rest_framework.generics import RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
-from rest_framework import mixins
-from rest_framework import generics
 
 from django.contrib.auth.models import User
 
@@ -13,6 +11,14 @@ from rest_framework import filters
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
 
+from django.http import HttpResponse
+from django.shortcuts import render,redirect
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes,force_text
+from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
+from django.template.loader import render_to_string
+from profiles_api.token_generator import account_activation_token
+from django.core.mail import EmailMessage
 
 from profiles_api import serializers
 from profiles_api import models
@@ -27,10 +33,27 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     search_fields = ('username',)
 
+    def perform_create(self,serializer):
+        """sends confirmation email"""
+        instance=serializer.save()
+        current_site=get_current_site(self.request)
+        email_subject='Activate Your Account'
+        message=render_to_string('activate_account.html',{
+            'user':instance,
+            'domain':current_site.domain,
+            'uid':urlsafe_base64_encode(force_bytes(instance.id)),
+            'token':account_activation_token.make_token(instance),
+        })
+        to_email= instance.email
+        email= EmailMessage(email_subject,message,to=[to_email])
+        email.send()
+
 
 class UserLoginApiView(ObtainAuthToken):
     """Handle creating user authentication tokens"""
     renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+
+    
 
 
 class QuestionItemViewSet(viewsets.ModelViewSet):
@@ -102,3 +125,18 @@ class SelectedAnsViewSet(viewsets.ModelViewSet):
     authentication_classes=(TokenAuthentication,)
     filter_backends= (filters.SearchFilter,)
     search_fields= ('result_id',)
+
+
+
+def activate_account(request, uidb64, token):
+    try:
+        uid = force_bytes(urlsafe_base64_decode(uidb64))
+        user = models.UserProfile.objects.get(id=uid)
+    except(TypeError, ValueError, OverflowError, models.UserProfile.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return HttpResponse('{name:hello}')
+    else:
+        return HttpResponse('{name:bye}')
