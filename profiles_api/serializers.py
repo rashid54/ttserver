@@ -27,6 +27,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
         return user
 
+    def update(self,instance,validated_data):
+        """overrides update """
+        instance.set_password(validated_data['password'])
+        instance.save()
+        return instance
+
 
 class QuestionItemSerializer(serializers.ModelSerializer):
     """serializes QuestionItem model"""
